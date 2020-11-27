@@ -11,14 +11,16 @@ const App = () => {
       try {
         num = Number(text);
       } catch (err) {
-        console.log("Error Occuered: ", err);
-      }
-
-      if (typeof text === String || !text || num < 0) setTimer(0);
-      setTimer(num);
-      console.log("Enter Pressed: ", num, timer);
-      if (timer < 0) {
         setTimer(0);
+        console.log("Error Occuered: ", err);
+        return;
+      }
+      console.log(typeof num === String);
+      if ( num < 0) setTimer(0);
+      //setTimer(0);
+      console.log("Enter Pressed: ", num, timer);
+      if (num > 0) {
+        setTimer(num);
       }
     }
   };
