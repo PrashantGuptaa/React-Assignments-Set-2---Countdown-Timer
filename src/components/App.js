@@ -9,7 +9,7 @@ const App = () => {
     if (event.keyCode === 13) {
       let num;
       try {
-        num = Number(text);
+        num = parseInt(text);
       } catch (err) {
         setTimer(0);
         console.log("Error Occuered: ", err);
