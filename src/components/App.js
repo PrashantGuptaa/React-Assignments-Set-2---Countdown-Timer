@@ -1,54 +1,45 @@
 import React, { Component, useState, useEffect } from "react";
-import "../styles/App.css";
+import '../styles/App.css';
 
 const App = () => {
-  let [timer, setTimer] = React.useState(0);
-  let [text, setText] = React.useState(0);
-
-  const StartTimer = (event) => {
-    if (event.keyCode === 13) {
-      let num;
-      try {
-        num = parseInt(text);
-      } catch (err) {
-        setTimer(0);
-        console.log("Error Occuered: ", err);
-        return;
-      }
-      console.log(typeof num === String);
-      if ( num < 0) setTimer(0);
-      //setTimer(0);
-      console.log("Enter Pressed: ", num, timer);
-      if (num > 0) {
-        setTimer(num);
-      }
+  // write your code here 
+  let [time, setTime] = useState(0);
+  const handleKeydown = (event) => {
+    const input = document.getElementById("timeCount").value;
+    if ((isNaN(input)) || (input.length === 0) 
+    || (Number(input) === 0)) {
+      setTime(0);
+      return;
     }
+    const key = event.keyCode;
+    if (key !== 13) {
+      return;
+    }
+    setTime(Number(input));
   };
 
-  const handleChange = (event) => setText(event.target.value);
+  const tick = () => {
+    if (time === 0 || time <= 0) {
+      return;
+    }
+    setTime(time - 1);
+  };
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      if (timer <= 0) return;
-      setTimer(timer - 1);
-      console.log("Timeout");
-    }, 1000);
-  }, [timer]);
+  useEffect(() => {
+    const id = setInterval(tick, 1000);
+    return () => {
+      clearInterval(id);
+    };
+  }, [time]);
 
   return (
     <div className="wrapper">
       <div id="whole-center">
-        <h1>
-          Reverse countdown for{" "}
-          <input
-            id="timeCount"
-            onKeyDown={StartTimer}
-            onChange={handleChange}
-          />{" "}
-          sec.
+        <h1> Reverse countdown for
+          <input id="timeCount" onKeyDown={handleKeydown} /> sec.
         </h1>
       </div>
-      <div id="current-time">{timer}</div>
+      <div id="current-time">{time}</div>
     </div>
   );
 };
